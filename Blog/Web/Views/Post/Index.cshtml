@@ -1,0 +1,14 @@
+﻿@model List<Post>
+@{
+    ViewData["Title"] = "Posts";
+}
+
+<ul>
+    @foreach (var post in Model)
+    {
+        <li>
+            <p>@post.Title</p>
+            <p>@post.CreatedAt.ToString("dd:MM:yy HH:mm")</p>
+        </li>
+    }
+</ul>

@@ -1,0 +1,8 @@
+﻿@model Post
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<p>@Model.Title</p>
+<p>@Model.Content</p>
+<p>@Model.CreatedAt.ToString("dd:mm:yy HH:mm")</p>

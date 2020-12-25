@@ -1,0 +1,13 @@
+﻿@model Post
+@{
+    ViewData["Title"] = "Post creating";
+}
+
+<form action="/posts/edit/@Model.Id" method="post">
+    @Html.AntiForgeryToken()
+    <label for="title">Title</label>
+    <input id="title" name="Title" value="@Model.Title" />
+    <label for="content">Content</label>
+    <input id="content" name="Content" value="@Model.Content" />
+    <button>Отправить</button>
+</form>
