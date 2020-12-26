@@ -19,7 +19,7 @@ namespace Blog.Web.Controllers
 
         [Route("/")]
         [Route("/index")]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             return View();
         }

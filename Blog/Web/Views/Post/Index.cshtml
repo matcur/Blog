@@ -1,6 +1,7 @@
 ﻿@model List<Post>
 @{
     ViewData["Title"] = "Posts";
+    var pageNavigation = (PageNavigationViewModel)ViewBag.PageNavigation;
 }
 
 <ul>
@@ -12,3 +13,5 @@
         </li>
     }
 </ul>
+
+@await Component.InvokeAsync("PageNavigation", pageNavigation)

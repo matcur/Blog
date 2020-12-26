@@ -1,7 +1,9 @@
 ﻿using Blog.DataAccess;
+using Blog.DataAccess.Extensions;
 using Blog.DataAccess.Models;
 using Blog.Infrastructure.FilterAttributes;
 using Blog.Infrastructure.Services;
+using Blog.Web.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -18,9 +20,13 @@ namespace Blog.Web.Controllers
 
         [HttpGet]
         [Route("/posts")]
-        public ActionResult Index()
+        public ActionResult Index([FromQuery(Name = "page")] int pageNumber = 1)
         {
-            var posts = DbPost.ToList();
+            var allPostCount = DbPost.Count();
+            var posts = DbPost.Paginate(pageNumber, 2).ToList();
+            ViewBag.PageNavigation = new PageNavigationViewModel(
+                pageNumber, allPostCount / 2, new UriBuilder($"https://{Request.Host}" + Url.Action("Index"))
+                );
 
             return View(posts);
         }
