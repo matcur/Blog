@@ -1,6 +1,6 @@
 ﻿using Blog.DataAccess;
 using Blog.DataAccess.Models;
-using Blog.Infrastructure.Services;
+using Blog.Core.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

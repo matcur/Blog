@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Blog.DataAccess
 {
-    public class BlogContext : IdentityDbContext<User, IdentityRole<long>, long>
+    public class BlogContext : IdentityDbContext<ApplicationUser, IdentityRole<long>, long>
     {
         public DbSet<Post> Posts { get; set; }
 

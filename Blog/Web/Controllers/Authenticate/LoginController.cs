@@ -1,6 +1,6 @@
 ﻿using Blog.DataAccess;
 using Blog.DataAccess.Models;
-using Blog.Infrastructure.FilterAttributes;
+using Blog.Core.FilterAttributes;
 using Blog.Web.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -11,7 +11,7 @@ namespace Blog.Web.Controllers.Authenticate
 {
     public class LoginController : AuthenticateController
     {
-        public LoginController(BlogContext blogContext, UserManager<User> userManager, SignInManager<User> signInManager) : base(blogContext, userManager, signInManager) { }
+        public LoginController(BlogContext blogContext, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager) : base(blogContext, userManager, signInManager) { }
 
         [HttpGet]
         [OnlyAnonymous]
@@ -27,12 +27,13 @@ namespace Blog.Web.Controllers.Authenticate
         public async Task<IActionResult> Login(LoginViewModel login)
         {
             var user = await GetValidatedUserAsync(login);
+
             await SignIn(user);
 
             return Redirect("~/");
         }
 
-        private async Task<User> GetValidatedUserAsync(LoginViewModel login)
+        private async Task<ApplicationUser> GetValidatedUserAsync(LoginViewModel login)
         {
             var user = await UserManager.FindByNameAsync(login.Name);
             if (user == null)

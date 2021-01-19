@@ -7,21 +7,21 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace Blog.Infrastructure.Services
+namespace Blog.Core.Services
 {
     public class UserService
     {
-        public UserManager<User> UserManager { get; }
+        public UserManager<ApplicationUser> UserManager { get; }
 
         public HttpContext HttpContext { get; }
 
-        public UserService(UserManager<User> userManager, IHttpContextAccessor httpContextAccessor)
+        public UserService(UserManager<ApplicationUser> userManager, IHttpContextAccessor httpContextAccessor)
         {
             UserManager = userManager;
             HttpContext = httpContextAccessor.HttpContext;
         }
 
-        public async Task<User> GetCurrentUser()
+        public async Task<ApplicationUser> GetCurrentUser()
         {
             return await UserManager.GetUserAsync(HttpContext.User);
         }

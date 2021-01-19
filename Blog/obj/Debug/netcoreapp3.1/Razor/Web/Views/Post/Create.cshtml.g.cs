@@ -42,7 +42,7 @@ using Blog.Web.ViewModels;
 #nullable disable
 #nullable restore
 #line 5 "C:\Users\rufar\source\repos\Blog\Blog\Web\Views\_ViewImports.cshtml"
-using Blog.Infrastructure.Services;
+using Blog.Core.Services;
 
 #line default
 #line hidden
@@ -55,7 +55,7 @@ using Microsoft.AspNetCore.Http;
 #line hidden
 #nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"8d2d1a29d19aafeecd20366d11a78f1213855a36", @"/Web/Views/Post/Create.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"cb91df3124a374c9443c2aeab526ef1d66b30941", @"/Web/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"cb199939c74c9f2f2f3448c3b6fc7ed0df440c9d", @"/Web/Views/_ViewImports.cshtml")]
     public class Web_Views_Post_Create : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<dynamic>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("action", new global::Microsoft.AspNetCore.Html.HtmlString("/posts/create"), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -94,7 +94,7 @@ using Microsoft.AspNetCore.Http;
 #line hidden
 #nullable disable
             WriteLiteral("\r\n");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "8d2d1a29d19aafeecd20366d11a78f1213855a364756", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "8d2d1a29d19aafeecd20366d11a78f1213855a364746", async() => {
                 WriteLiteral("\r\n    ");
 #nullable restore
 #line 6 "C:\Users\rufar\source\repos\Blog\Blog\Web\Views\Post\Create.cshtml"

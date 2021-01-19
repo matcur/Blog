@@ -42,7 +42,7 @@ using Blog.Web.ViewModels;
 #nullable disable
 #nullable restore
 #line 5 "C:\Users\rufar\source\repos\Blog\Blog\Web\Views\_ViewImports.cshtml"
-using Blog.Infrastructure.Services;
+using Blog.Core.Services;
 
 #line default
 #line hidden
@@ -55,7 +55,7 @@ using Microsoft.AspNetCore.Http;
 #line hidden
 #nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"9c383d6e2c001dbf26281275aef42940bd0c7b23", @"/Web/Views/Post/Details.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"cb91df3124a374c9443c2aeab526ef1d66b30941", @"/Web/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"cb199939c74c9f2f2f3448c3b6fc7ed0df440c9d", @"/Web/Views/_ViewImports.cshtml")]
     public class Web_Views_Post_Details : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<Post>
     {
         #pragma warning disable 1998

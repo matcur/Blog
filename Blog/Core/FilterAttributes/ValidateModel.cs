@@ -5,14 +5,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Blog.Infrastructure.FilterAttributes
+namespace Blog.Core.FilterAttributes
 {
-    public class OnlyAnonymous : ActionFilterAttribute
+    public class ValidateModel : ActionFilterAttribute
     {
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-            if (context.HttpContext.User.Identity.IsAuthenticated)
-                context.Result = new RedirectToActionResult("Index", "Home", "");
+            if (!context.ModelState.IsValid)
+                context.Result = new BadRequestObjectResult(context.ModelState);
         }
     }
 }

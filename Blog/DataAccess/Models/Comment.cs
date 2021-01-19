@@ -19,6 +19,6 @@ namespace Blog.DataAccess.Models
 
         public Post Post { get; set; }
 
-        public User Autor { get; set; }
+        public ApplicationUser Autor { get; set; }
     }
 }

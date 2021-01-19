@@ -1,8 +1,8 @@
 ﻿using Blog.DataAccess;
 using Blog.DataAccess.Extensions;
 using Blog.DataAccess.Models;
-using Blog.Infrastructure.FilterAttributes;
-using Blog.Infrastructure.Services;
+using Blog.Core.FilterAttributes;
+using Blog.Core.Services;
 using Blog.Web.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

@@ -1,5 +1,5 @@
 ﻿using Blog.DataAccess;
-using Blog.Infrastructure.Services;
+using Blog.Core.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;

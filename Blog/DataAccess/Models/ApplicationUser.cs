@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Blog.DataAccess.Models
 {
-    public class User : IdentityUser<long>
+    public class ApplicationUser : IdentityUser<long>
     {
         public DateTime RegisteredAt { get; set; }
 
@@ -15,9 +15,9 @@ namespace Blog.DataAccess.Models
 
         public List<Comment> Comments { get; set; } = new List<Comment>();
 
-        public static User MakeFrom(RegisterViewModel viewModel)
+        public static ApplicationUser MakeFrom(RegisterViewModel viewModel)
         {
-            return new User
+            return new ApplicationUser
             {
                 UserName = viewModel.Name,
                 PasswordHash = viewModel.Password,

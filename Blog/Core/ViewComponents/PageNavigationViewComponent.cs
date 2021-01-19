@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Blog.Infrastructure.ViewComponents
+namespace Blog.Core.ViewComponents
 {
     public class PageNavigationViewComponent : ViewComponent
     {
