@@ -20,12 +20,13 @@ namespace Blog.Web.Controllers
 
         [HttpGet]
         [Route("/posts")]
-        public ActionResult Index([FromQuery(Name = "page")] int pageNumber = 1)
+        public ActionResult Index(int page = 1)
         {
-            var allPostCount = DbPost.Count();
-            var posts = DbPost.Paginate(pageNumber, 2).ToList();
+            var allPostCount = dbPost.Count();
+            var posts = dbPost.Paginate(page, 2).ToList();
+
             ViewBag.PageNavigation = new PageNavigationViewModel(
-                pageNumber, allPostCount / 2, new UriBuilder($"https://{Request.Host}" + Url.Action("Index"))
+                page, allPostCount / 2, new UriBuilder($"https://{Request.Host}" + Url.Action("Index"))
                 );
 
             return View(posts);
@@ -35,7 +36,7 @@ namespace Blog.Web.Controllers
         [Route("/posts/details/{id:long}")]
         public ActionResult Details(long id)
         {
-            var post = DbPost.Find(id);
+            var post = dbPost.Find(id);
             if (post == null)
                 return NotFound();
 
@@ -58,18 +59,19 @@ namespace Blog.Web.Controllers
         public async Task<ActionResult> Create(Post post)
         {
             post.CreatedAt = DateTime.Now;
-            post.Author = await UserService.GetCurrentUser();
-            DbPost.Add(post);
-            BlogContext.SaveChanges();
+            post.Author = await userService.GetCurrentUser();
 
-            return View();
+            dbPost.Add(post);
+            blogContext.SaveChanges();
+
+            return RedirectToAction("Details", new { id = post.Id });
         }
 
         [HttpGet]
         [Route("/posts/edit/{id:long}")]
         public ActionResult Edit(long id)
         {
-            var post = DbPost.Find(id);
+            var post = dbPost.Find(id);
             if (post == null)
                 return NotFound($"Post {id} not found");
 
@@ -81,15 +83,15 @@ namespace Blog.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Post updatingPost)
         {
-            var post = DbPost.Find(updatingPost.Id);
+            var post = dbPost.Find(updatingPost.Id);
             if (post == null)
                 return NotFound();
 
             post.Content = updatingPost.Content;
             post.Title = updatingPost.Title;
 
-            BlogContext.Entry(post).State = EntityState.Modified;
-            BlogContext.SaveChanges();
+            blogContext.Entry(post).State = EntityState.Modified;
+            blogContext.SaveChanges();
             
             return Redirect("/posts");
         }
@@ -99,12 +101,12 @@ namespace Blog.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id)
         {
-            var post = DbPost.Find(id);
+            var post = dbPost.Find(id);
             if (post == null)
                 return NotFound($"Post {id} not found");
 
-            BlogContext.Entry(post).State = EntityState.Deleted;
-            BlogContext.SaveChanges();
+            blogContext.Entry(post).State = EntityState.Deleted;
+            blogContext.SaveChanges();
 
             return View();
         }

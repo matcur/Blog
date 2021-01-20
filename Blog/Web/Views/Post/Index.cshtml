@@ -4,14 +4,12 @@
     var pageNavigation = (PageNavigationViewModel)ViewBag.PageNavigation;
 }
 
-<ul>
-    @foreach (var post in Model)
-    {
-        <li>
-            <p>@post.Title</p>
-            <p>@post.CreatedAt.ToString("dd:MM:yy HH:mm")</p>
-        </li>
-    }
-</ul>
+@foreach (var post in Model)
+{
+<div>
+    <a asp-controller="Post" asp-action="Details" asp-route-id="@post.Id">@post.Title</a>
+    <p>@post.CreatedAt.ToString("dd:MM:yy HH:mm")</p>
+</div>
+}
 
 @await Component.InvokeAsync("PageNavigation", pageNavigation)

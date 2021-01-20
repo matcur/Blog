@@ -27,7 +27,7 @@ namespace Blog.Web.Controllers.Authenticate.OAuth
         [Route("oauth/github/authorize")]
         public IActionResult Authorize()
         {
-            var loginUrl = gitHubOauth.GetLoginUrl();
+            var loginUrl = gitHubOauth.GetAuthorizeUrl();
 
             return Redirect(loginUrl);
         }

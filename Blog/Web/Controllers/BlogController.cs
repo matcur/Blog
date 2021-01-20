@@ -13,17 +13,11 @@ namespace Blog.Web.Controllers
 {
     public abstract class BlogController : Controller
     {
-        public UserService UserService => userService;
+        protected readonly UserService userService;
 
-        public BlogContext BlogContext => blogContext;
+        protected readonly BlogContext blogContext;
 
-        public DbSet<Post> DbPost => dbPost;
-
-        private readonly BlogContext blogContext;
-
-        private readonly UserService userService;
-
-        private readonly DbSet<Post> dbPost;
+        protected readonly DbSet<Post> dbPost;
 
         public BlogController(BlogContext blogContext, UserService userService)
         {

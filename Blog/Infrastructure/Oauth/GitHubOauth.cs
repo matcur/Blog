@@ -29,7 +29,7 @@ namespace Blog.Infrastructure.Oauth
             return new GitHubClient(new ProductHeaderValue(applicationName));
         }
 
-        public string GetLoginUrl()
+        public string GetAuthorizeUrl()
         {
             var client = MakeClient();
             var request = MakeLoginRequest();
@@ -75,7 +75,7 @@ namespace Blog.Infrastructure.Oauth
 
             user = new ApplicationUser
             {
-                UserName = githubUser.Login.ToString(),
+                UserName = githubUser.Login,
                 PasswordHash = Randomizer.GetString(8),
             };
             await userManager.CreateAsync(user);
