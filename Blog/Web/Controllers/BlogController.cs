@@ -17,13 +17,16 @@ namespace Blog.Web.Controllers
 
         protected readonly BlogContext blogContext;
 
-        protected readonly DbSet<Post> dbPost;
+        protected readonly DbSet<Post> postTable;
+
+        protected readonly DbSet<Comment> commentTable;
 
         public BlogController(BlogContext blogContext, UserService userService)
         {
             this.blogContext = blogContext;
             this.userService = userService;
-            dbPost = blogContext.Posts;
+            postTable = blogContext.Posts;
+            commentTable = blogContext.Comments;
         }
     }
 }

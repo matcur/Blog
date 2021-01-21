@@ -4,13 +4,13 @@ using AspNet.Security.OAuth.GitHub;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Blog.Web.Extensions;
 using Blog.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Blog.DataAccess.Models;
 using Blog.Core.Services;
 using Blog.Infrastructure.Oauth;
+using Blog.Extensions;
 
 namespace Blog
 {
@@ -45,10 +45,10 @@ namespace Blog
                     });
 
             services.AddDbContext<BlogContext>(options =>
-            {
-                var connection = Configuration.GetConnectionString("DefaultConnection");
-                options.UseSqlServer(connection);
-            });
+                    {
+                        var connection = Configuration.GetConnectionString("DefaultConnection");
+                        options.UseSqlServer(connection);
+                    });
             services.AddIdentity<ApplicationUser, IdentityRole<long>>(options =>
                     {
                         var password = options.Password;

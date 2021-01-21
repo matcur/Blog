@@ -21,5 +21,7 @@ namespace Blog.DataAccess.Models
         public DateTime CreatedAt { get; set; }
 
         public ApplicationUser Author { get; set; }
+
+        public List<Comment> Comments { get; set; }
     }
 }

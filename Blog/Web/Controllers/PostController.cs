@@ -1,5 +1,4 @@
 ﻿using Blog.DataAccess;
-using Blog.DataAccess.Extensions;
 using Blog.DataAccess.Models;
 using Blog.Core.FilterAttributes;
 using Blog.Core.Services;
@@ -11,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blog.Extensions;
 
 namespace Blog.Web.Controllers
 {
@@ -22,8 +22,8 @@ namespace Blog.Web.Controllers
         [Route("/posts")]
         public ActionResult Index(int page = 1)
         {
-            var allPostCount = dbPost.Count();
-            var posts = dbPost.Paginate(page, 2).ToList();
+            var allPostCount = postTable.Count();
+            var posts = postTable.Paginate(page, 2).ToList();
 
             ViewBag.PageNavigation = new PageNavigationViewModel(
                 page, allPostCount / 2, new UriBuilder($"https://{Request.Host}" + Url.Action("Index"))
@@ -36,7 +36,9 @@ namespace Blog.Web.Controllers
         [Route("/posts/details/{id:long}")]
         public ActionResult Details(long id)
         {
-            var post = dbPost.Find(id);
+            var post = postTable.Include(p => p.Comments)
+                                .ThenInclude(c => c.Autor)
+                                .First(p => p.Id == id);
             if (post == null)
                 return NotFound();
 
@@ -61,7 +63,7 @@ namespace Blog.Web.Controllers
             post.CreatedAt = DateTime.Now;
             post.Author = await userService.GetCurrentUser();
 
-            dbPost.Add(post);
+            postTable.Add(post);
             blogContext.SaveChanges();
 
             return RedirectToAction("Details", new { id = post.Id });
@@ -71,7 +73,7 @@ namespace Blog.Web.Controllers
         [Route("/posts/edit/{id:long}")]
         public ActionResult Edit(long id)
         {
-            var post = dbPost.Find(id);
+            var post = postTable.Find(id);
             if (post == null)
                 return NotFound($"Post {id} not found");
 
@@ -83,7 +85,7 @@ namespace Blog.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Post updatingPost)
         {
-            var post = dbPost.Find(updatingPost.Id);
+            var post = postTable.Find(updatingPost.Id);
             if (post == null)
                 return NotFound();
 
@@ -101,7 +103,7 @@ namespace Blog.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id)
         {
-            var post = dbPost.Find(id);
+            var post = postTable.Find(id);
             if (post == null)
                 return NotFound($"Post {id} not found");
 
