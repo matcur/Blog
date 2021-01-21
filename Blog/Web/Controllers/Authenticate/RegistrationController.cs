@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using Blog.Core.FilterAttributes.Authorization;
+using Blog.Core.FilterAttributes.Actions;
 
 namespace WebApplication.Web.Controllers.Authenticate
 {
@@ -28,7 +30,7 @@ namespace WebApplication.Web.Controllers.Authenticate
         [Route("/register")]
         public async Task<IActionResult> Register(RegisterViewModel register)
         {
-            var user = Blog.DataAccess.Models.ApplicationUser.MakeFrom(register);
+            var user = ApplicationUser.MakeFrom(register);
             
             await Register(user);
 

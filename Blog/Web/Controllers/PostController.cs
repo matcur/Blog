@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Blog.Extensions;
+using Blog.Core.FilterAttributes.Actions;
 
 namespace Blog.Web.Controllers
 {
@@ -54,8 +55,8 @@ namespace Blog.Web.Controllers
         }
 
         [HttpPost]
-        [ValidateModel]
         [Authorize]
+        [ValidateModel]
         [Route("/posts/create")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(Post post)
@@ -81,8 +82,9 @@ namespace Blog.Web.Controllers
         }
 
         [HttpPost]
-        [Route("/posts/edit/{id:long}")]
+        [ValidateModel]
         [ValidateAntiForgeryToken]
+        [Route("/posts/edit/{id:long}")]
         public ActionResult Edit(Post updatingPost)
         {
             var post = postTable.Find(updatingPost.Id);
@@ -99,8 +101,8 @@ namespace Blog.Web.Controllers
         }
 
         [HttpDelete]
-        [Route("/posts/delete/{id:long}")]
         [ValidateAntiForgeryToken]
+        [Route("/posts/delete/{id:long}")]
         public ActionResult Delete(int id)
         {
             var post = postTable.Find(id);

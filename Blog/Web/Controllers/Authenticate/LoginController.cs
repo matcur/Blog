@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using Blog.Core.FilterAttributes.Authorization;
 
 namespace Blog.Web.Controllers.Authenticate
 {

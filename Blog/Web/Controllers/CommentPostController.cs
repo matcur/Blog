@@ -1,4 +1,6 @@
 ﻿using Blog.Core.FilterAttributes;
+using Blog.Core.FilterAttributes.Action;
+using Blog.Core.FilterAttributes.Actions;
 using Blog.Core.Services;
 using Blog.DataAccess;
 using Blog.DataAccess.Models;
@@ -17,21 +19,14 @@ namespace Blog.Web.Controllers
 
         [Authorize]
         [ValidateModel]
-        [Route("posts/{id}/comment/create")]
-        public async Task<IActionResult> Create(Comment comment, long id)
+        [CommentCreating]
+        [Route("posts/{postId:long}/comment/create")]
+        public async Task<IActionResult> Create(Comment comment, long postId)
         {
-            var post = postTable.First(p => p.Id == id);
-            if (post == null)
-                return NotFound();
-
-            comment.Autor = await userService.GetCurrentUser();
-            comment.CreatedAt = DateTime.Now;
-            comment.Post = post;
-
             commentTable.Add(comment);
             await blogContext.SaveChangesAsync();
 
-            return RedirectToAction("Details", "Post", new { id = id });
+            return RedirectToAction("Details", "Post", new { id = postId });
         }
     }
 }

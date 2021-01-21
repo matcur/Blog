@@ -5,11 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Blog.Core.FilterAttributes
+namespace Blog.Core.FilterAttributes.Authorization
 {
-    public class OnlyAnonymous : ActionFilterAttribute
+    public class OnlyAnonymousAttribute : Attribute, IAuthorizationFilter
     {
-        public override void OnActionExecuting(ActionExecutingContext context)
+        public void OnAuthorization(AuthorizationFilterContext context)
         {
             if (context.HttpContext.User.Identity.IsAuthenticated)
                 context.Result = new RedirectToActionResult("Index", "Home", "");

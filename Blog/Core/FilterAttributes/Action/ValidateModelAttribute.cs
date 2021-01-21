@@ -5,14 +5,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Blog.Core.FilterAttributes
+namespace Blog.Core.FilterAttributes.Actions
 {
-    public class ValidateModel : ActionFilterAttribute
+    public class ValidateModelAttribute : Attribute, IActionFilter
     {
-        public override void OnActionExecuting(ActionExecutingContext context)
+        public void OnActionExecuting(ActionExecutingContext context)
         {
             if (!context.ModelState.IsValid)
                 context.Result = new BadRequestObjectResult(context.ModelState);
         }
+
+        public void OnActionExecuted(ActionExecutedContext context) { }
     }
 }
