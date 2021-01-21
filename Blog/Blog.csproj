@@ -17,7 +17,7 @@
 
   <ItemGroup>
     <Folder Include="DataAccess\Initializers\" />
-    <Folder Include="Web\Extensions\" />
+    <Folder Include="Extensions\" />
   </ItemGroup>
 
 </Project>

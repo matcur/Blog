@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Blog.Web.Extensions
+namespace Blog.Extensions
 {
     public static class RazorViewEngineExtension
     {
