@@ -48,7 +48,7 @@ namespace Blog
                     {
                         var connection = Configuration.GetConnectionString("DefaultConnection");
                         options.UseSqlServer(connection);
-                    });
+                    }, ServiceLifetime.Transient);
             services.AddIdentity<ApplicationUser, IdentityRole<long>>(options =>
                     {
                         var password = options.Password;
@@ -67,15 +67,16 @@ namespace Blog
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseDeveloperExceptionPage();
             if (env.IsDevelopment())
             {
+                app.UseDeveloperExceptionPage();
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+            
+            app.UseStatusCodePagesWithReExecute("/error", "?code={0}");
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

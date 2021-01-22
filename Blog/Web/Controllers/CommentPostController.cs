@@ -6,6 +6,7 @@ using Blog.DataAccess;
 using Blog.DataAccess.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,7 @@ namespace Blog.Web.Controllers
         [Route("posts/{postId:long}/comment/create")]
         public async Task<IActionResult> Create(Comment comment, long postId)
         {
+            blogContext.Entry(comment).State = EntityState.Added;
             commentTable.Add(comment);
             await blogContext.SaveChangesAsync();
 

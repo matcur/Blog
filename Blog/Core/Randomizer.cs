@@ -21,8 +21,8 @@ namespace Blog.Core
             var builder = new StringBuilder();
             while (builder.Length != length)
             {
-                var str = AlphanumericChars[new Random().Next(AlphanumericChars.Length)];
-                builder.Append(str);
+                var chr = AlphanumericChars[new Random().Next(AlphanumericChars.Length)];
+                builder.Append(chr);
             }
 
             return builder.ToString();

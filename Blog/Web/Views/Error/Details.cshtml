@@ -1,0 +1,13 @@
+﻿@{
+    var errorCode = (int)ViewBag.ErrorCode;
+
+    ViewData["Title"] = errorCode;
+
+    var errorInfo = new Dictionary<int, string>
+    {
+        { 404, "Page not found." },
+        { 500, "Monkey already works." }
+    };
+}
+
+<p>@errorInfo[errorCode]</p>

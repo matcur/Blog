@@ -84,7 +84,6 @@ C:\Users\rufar\source\repos\Blog\Blog\obj\Debug\netcoreapp3.1\Razor\Web\Views\Po
 C:\Users\rufar\source\repos\Blog\Blog\obj\Debug\netcoreapp3.1\Razor\Web\Views\Post\Index.cshtml.g.cs
 C:\Users\rufar\source\repos\Blog\Blog\obj\Debug\netcoreapp3.1\Razor\Web\Views\Authorization\Login.cshtml.g.cs
 C:\Users\rufar\source\repos\Blog\Blog\obj\Debug\netcoreapp3.1\Razor\Web\Views\Authorization\Register.cshtml.g.cs
-C:\Users\rufar\source\repos\Blog\Blog\obj\Debug\netcoreapp3.1\Blog.csprojAssemblyReference.cache
 C:\Users\rufar\source\repos\Blog\Blog\obj\Debug\netcoreapp3.1\Razor\Web\Views\Post\Edit.cshtml.g.cs
 C:\Users\rufar\source\repos\Blog\Blog\bin\Debug\netcoreapp3.1\Google.Apis.dll
 C:\Users\rufar\source\repos\Blog\Blog\bin\Debug\netcoreapp3.1\Google.Apis.Auth.PlatformServices.dll
@@ -93,3 +92,5 @@ C:\Users\rufar\source\repos\Blog\Blog\bin\Debug\netcoreapp3.1\Google.Apis.Core.d
 C:\Users\rufar\source\repos\Blog\Blog\bin\Debug\netcoreapp3.1\AspNet.Security.OAuth.GitHub.dll
 C:\Users\rufar\source\repos\Blog\Blog\bin\Debug\netcoreapp3.1\Octokit.dll
 C:\Users\rufar\source\repos\Blog\Blog\bin\Debug\netcoreapp3.1\Quartz.dll
+C:\Users\rufar\source\repos\Blog\Blog\obj\Debug\netcoreapp3.1\Blog.csprojAssemblyReference.cache
+C:\Users\rufar\source\repos\Blog\Blog\obj\Debug\netcoreapp3.1\Razor\Web\Views\Error\Details.cshtml.g.cs

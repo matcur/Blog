@@ -13,9 +13,7 @@ namespace Blog.Web.Controllers
 {
     public class HomeController : BlogController
     {
-        public HomeController(BlogContext blogContext, UserService userService) : base(blogContext, userService)
-        {
-        }
+        public HomeController(BlogContext blogContext, UserService userService) : base(blogContext, userService) { }
 
         [Route("/")]
         [Route("/index")]

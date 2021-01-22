@@ -12,6 +12,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Blog.Extensions;
 using Blog.Core.FilterAttributes.Actions;
+using Blog.Core.FilterAttributes.Action;
 
 namespace Blog.Web.Controllers
 {
@@ -23,11 +24,11 @@ namespace Blog.Web.Controllers
         [Route("/posts")]
         public ActionResult Index(int page = 1)
         {
-            var allPostCount = postTable.Count();
+            var postCount = postTable.Count();
             var posts = postTable.Paginate(page, 2).ToList();
 
             ViewBag.PageNavigation = new PageNavigationViewModel(
-                page, allPostCount / 2, new UriBuilder($"https://{Request.Host}" + Url.Action("Index"))
+                page, postCount / 2, new UriBuilder($"https://{Request.Host}" + Url.Action("Index"))
                 );
 
             return View(posts);
@@ -40,8 +41,6 @@ namespace Blog.Web.Controllers
             var post = postTable.Include(p => p.Comments)
                                 .ThenInclude(c => c.Autor)
                                 .First(p => p.Id == id);
-            if (post == null)
-                return NotFound();
 
             return View(post);
         }
@@ -56,14 +55,13 @@ namespace Blog.Web.Controllers
 
         [HttpPost]
         [Authorize]
+        [PostCreating]
         [ValidateModel]
         [Route("/posts/create")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(Post post)
+        public ActionResult Create(Post post)
         {
-            post.CreatedAt = DateTime.Now;
-            post.Author = await userService.GetCurrentUser();
-
+            blogContext.Entry(post).State = EntityState.Added;
             postTable.Add(post);
             blogContext.SaveChanges();
 
@@ -74,9 +72,7 @@ namespace Blog.Web.Controllers
         [Route("/posts/edit/{id:long}")]
         public ActionResult Edit(long id)
         {
-            var post = postTable.Find(id);
-            if (post == null)
-                return NotFound($"Post {id} not found");
+            var post = postTable.First(p => p.Id == id);
 
             return View(post);
         }
@@ -87,9 +83,7 @@ namespace Blog.Web.Controllers
         [Route("/posts/edit/{id:long}")]
         public ActionResult Edit(Post updatingPost)
         {
-            var post = postTable.Find(updatingPost.Id);
-            if (post == null)
-                return NotFound();
+            var post = postTable.First(p => p.Id == updatingPost.Id);
 
             post.Content = updatingPost.Content;
             post.Title = updatingPost.Title;
@@ -97,7 +91,7 @@ namespace Blog.Web.Controllers
             blogContext.Entry(post).State = EntityState.Modified;
             blogContext.SaveChanges();
             
-            return Redirect("/posts");
+            return RedirectToAction("Index");
         }
 
         [HttpDelete]
@@ -105,9 +99,7 @@ namespace Blog.Web.Controllers
         [Route("/posts/delete/{id:long}")]
         public ActionResult Delete(int id)
         {
-            var post = postTable.Find(id);
-            if (post == null)
-                return NotFound($"Post {id} not found");
+            var post = postTable.First(p => p.Id == id);
 
             blogContext.Entry(post).State = EntityState.Deleted;
             blogContext.SaveChanges();
