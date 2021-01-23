@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Blog.Web.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +12,7 @@ namespace Blog.Web.Controllers
         [Route("/error")]
         public IActionResult Details(int code)
         {
-            ViewBag.ErrorCode = code;
-
-            return View();
+            return View(new ErrorViewModel(code));
         }
     }
 }

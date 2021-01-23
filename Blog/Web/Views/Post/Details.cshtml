@@ -1,13 +1,14 @@
 ﻿@model Post
 @{
     ViewData["Title"] = Model.Title;
+    Model.Comments.Reverse();
 }
 
 <p>@Model.Title</p>
 <p>@Model.Content</p>
 <p>@Model.CreatedAt.ToString("dd:mm:yy HH:mm")</p>
 
-<form asp-controller="CommentPost" asp-action="Create" asp-route-postId="@Model.Id">
+<form asp-controller="PostComment" asp-action="Create" asp-route-postId="@Model.Id">
     <input name="Comment.Content" />
     <button>Отправить</button>
 </form>

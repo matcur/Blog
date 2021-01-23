@@ -16,31 +16,37 @@ using Blog.Core.FilterAttributes.Action;
 
 namespace Blog.Web.Controllers
 {
-    public class PostController : BlogController
+    public class PostController : Controller
     {
-        public PostController(BlogContext blogContext, UserService userService) : base(blogContext, userService) { }
+        private readonly PostService postService;
+
+        private readonly UserService userService;
+
+        public PostController(PostService postService, UserService userService)
+        {
+            this.postService = postService;
+            this.userService = userService;
+        }
 
         [HttpGet]
         [Route("/posts")]
-        public ActionResult Index(int page = 1)
+        public ActionResult Index(int page = 1, int perPage = 5)
         {
-            var postCount = postTable.Count();
-            var posts = postTable.Paginate(page, 2).ToList();
+            var postCount = postService.GetCount();
+            var pagePosts = postService.GetPaginate(page, perPage);
 
             ViewBag.PageNavigation = new PageNavigationViewModel(
-                page, postCount / 2, new UriBuilder($"https://{Request.Host}" + Url.Action("Index"))
+                    page, postCount / perPage, new UriBuilder($"https://{Request.Host}" + Url.Action("Index"))
                 );
 
-            return View(posts);
+            return View(pagePosts);
         }
 
         [HttpGet]
         [Route("/posts/details/{id:long}")]
         public ActionResult Details(long id)
         {
-            var post = postTable.Include(p => p.Comments)
-                                .ThenInclude(c => c.Autor)
-                                .First(p => p.Id == id);
+            var post = postService.FindPostDetail(id);
 
             return View(post);
         }
@@ -61,9 +67,7 @@ namespace Blog.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Post post)
         {
-            blogContext.Entry(post).State = EntityState.Added;
-            postTable.Add(post);
-            blogContext.SaveChanges();
+            postService.Create(post);
 
             return RedirectToAction("Details", new { id = post.Id });
         }
@@ -72,7 +76,7 @@ namespace Blog.Web.Controllers
         [Route("/posts/edit/{id:long}")]
         public ActionResult Edit(long id)
         {
-            var post = postTable.First(p => p.Id == id);
+            var post = postService.FindPost(id);
 
             return View(post);
         }
@@ -83,13 +87,7 @@ namespace Blog.Web.Controllers
         [Route("/posts/edit/{id:long}")]
         public ActionResult Edit(Post updatingPost)
         {
-            var post = postTable.First(p => p.Id == updatingPost.Id);
-
-            post.Content = updatingPost.Content;
-            post.Title = updatingPost.Title;
-
-            blogContext.Entry(post).State = EntityState.Modified;
-            blogContext.SaveChanges();
+            postService.Update(updatingPost);
             
             return RedirectToAction("Index");
         }
@@ -97,14 +95,11 @@ namespace Blog.Web.Controllers
         [HttpDelete]
         [ValidateAntiForgeryToken]
         [Route("/posts/delete/{id:long}")]
-        public ActionResult Delete(int id)
+        public ActionResult Delete(long id)
         {
-            var post = postTable.First(p => p.Id == id);
+            postService.Delete(id);
 
-            blogContext.Entry(post).State = EntityState.Deleted;
-            blogContext.SaveChanges();
-
-            return View();
+            return RedirectToAction("Index");
         }
     }
 }

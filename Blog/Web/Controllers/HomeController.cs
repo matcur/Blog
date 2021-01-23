@@ -11,10 +11,8 @@ using System.Threading.Tasks;
 
 namespace Blog.Web.Controllers
 {
-    public class HomeController : BlogController
+    public class HomeController : Controller
     {
-        public HomeController(BlogContext blogContext, UserService userService) : base(blogContext, userService) { }
-
         [Route("/")]
         [Route("/index")]
         public IActionResult Index()

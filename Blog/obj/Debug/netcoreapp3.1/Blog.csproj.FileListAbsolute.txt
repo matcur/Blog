@@ -35,7 +35,6 @@ C:\Users\rufar\source\repos\Blog\Blog\obj\Debug\netcoreapp3.1\Blog.TagHelpers.ou
 C:\Users\rufar\source\repos\Blog\Blog\obj\Debug\netcoreapp3.1\Blog.RazorCoreGenerate.cache
 C:\Users\rufar\source\repos\Blog\Blog\obj\Debug\netcoreapp3.1\Razor\Web\Views\Home\Index.cshtml.g.cs
 C:\Users\rufar\source\repos\Blog\Blog\obj\Debug\netcoreapp3.1\Razor\Web\Views\Home\Privacy.cshtml.g.cs
-C:\Users\rufar\source\repos\Blog\Blog\obj\Debug\netcoreapp3.1\Razor\Web\Views\Shared\Error.cshtml.g.cs
 C:\Users\rufar\source\repos\Blog\Blog\obj\Debug\netcoreapp3.1\Razor\Web\Views\Shared\_Layout.cshtml.g.cs
 C:\Users\rufar\source\repos\Blog\Blog\obj\Debug\netcoreapp3.1\Razor\Web\Views\Shared\_ValidationScriptsPartial.cshtml.g.cs
 C:\Users\rufar\source\repos\Blog\Blog\obj\Debug\netcoreapp3.1\Razor\Web\Views\_ViewImports.cshtml.g.cs

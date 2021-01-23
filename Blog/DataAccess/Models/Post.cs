@@ -22,6 +22,6 @@ namespace Blog.DataAccess.Models
 
         public ApplicationUser Author { get; set; }
 
-        public List<Comment> Comments { get; set; }
+        public List<Comment> Comments { get; set; } = new List<Comment>();
     }
 }

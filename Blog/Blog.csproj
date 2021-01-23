@@ -15,8 +15,4 @@
     <PackageReference Include="Quartz" Version="3.2.3" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Extensions\" />
-  </ItemGroup>
-
 </Project>

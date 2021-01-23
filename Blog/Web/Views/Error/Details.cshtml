@@ -1,13 +1,11 @@
-﻿@{
-    var errorCode = (int)ViewBag.ErrorCode;
-
-    ViewData["Title"] = errorCode;
-
-    var errorInfo = new Dictionary<int, string>
-    {
-        { 404, "Page not found." },
-        { 500, "Monkey already works." }
-    };
+﻿@model ErrorViewModel
+@{
+    ViewData["Title"] = Model.Info;
 }
-
-<p>@errorInfo[errorCode]</p>
+<div class="container">
+    <div class="col-10">
+        <div class="justify-content-center">
+            @Model.Code @Model.Info
+        </div>
+    </div>
+</div>

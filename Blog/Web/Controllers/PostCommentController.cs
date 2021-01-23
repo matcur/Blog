@@ -14,19 +14,22 @@ using System.Threading.Tasks;
 
 namespace Blog.Web.Controllers
 {
-    public class CommentPostController : BlogController
+    public class PostCommentController : Controller
     {
-        public CommentPostController(BlogContext blogContext, UserService userService) : base(blogContext, userService) { }
+        private readonly PostService postService;
+
+        public PostCommentController(PostService postService)
+        {
+            this.postService = postService;
+        }
 
         [Authorize]
         [ValidateModel]
         [CommentCreating]
         [Route("posts/{postId:long}/comment/create")]
-        public async Task<IActionResult> Create(Comment comment, long postId)
+        public IActionResult Create(Comment comment, long postId)
         {
-            blogContext.Entry(comment).State = EntityState.Added;
-            commentTable.Add(comment);
-            await blogContext.SaveChangesAsync();
+            postService.AssociateComment(comment, postId);
 
             return RedirectToAction("Details", "Post", new { id = postId });
         }

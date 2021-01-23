@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Blog.Extensions
 {
-    public static class Queryable
+    public static class QueryableExtension
     {
         public static IQueryable<T> Paginate<T>(this IQueryable<T> source, int page, int perPage = 10)
         {

@@ -27,6 +27,7 @@ namespace Blog
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<UserService>();
+            services.AddTransient<PostService>();
             services.AddTransient<GitHubOauth>();
 
             services.AddControllersWithViews();
