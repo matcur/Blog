@@ -9,7 +9,7 @@ namespace WebApplication.Web.Controllers.Authenticate
 {
     public class LogoutController : AuthenticateController
     {
-        public LogoutController(BlogContext blogContext, UserManager<User> userManager, SignInManager<User> signInManager) : base(blogContext, userManager, signInManager) { }
+        public LogoutController(BlogContext blogContext, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager) : base(blogContext, userManager, signInManager) { }
 
         [HttpGet]
         [Route("/logout")]

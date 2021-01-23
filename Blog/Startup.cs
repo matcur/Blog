@@ -1,48 +1,66 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using AspNet.Security.OAuth.GitHub;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Blog.Web.Extensions;
 using Blog.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Blog.DataAccess.Models;
-using Blog.Infrastructure.Services;
+using Blog.Core.Services;
+using Blog.Infrastructure.Oauth;
+using Blog.Extensions;
 
 namespace Blog
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
-
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<UserService>();
+            services.AddTransient<PostService>();
+            services.AddTransient<GitHubOauth>();
 
             services.AddControllersWithViews();
             services.ConfigureRazorEngineFolders();
 
             services.AddAuthentication()
-                    .AddCookie();
+                    .AddCookie()
+                    .AddOAuth("gitHub", options => 
+                    {
+                        options.ClientId = Configuration["GitHub:ClientId"];
+                        options.ClientSecret = Configuration["GitHub:ClientSecret"];
+                        options.AuthorizationEndpoint = Configuration["Github:AuthorizationEndpoint"];
+                        options.TokenEndpoint = Configuration["GitHub:TokenEndpoint"];
+                        options.UserInformationEndpoint = Configuration["GitHub:UserInformationEndpoint"];
+                        options.CallbackPath = Configuration["Github:CallbackPath"];
+                    });
 
             services.AddDbContext<BlogContext>(options =>
-            {
-                var connection = Configuration.GetConnectionString("DefaultConnection");
-                options.UseSqlServer(connection);
-            });
-            services.AddIdentity<User, IdentityRole<long>>()
+                    {
+                        var connection = Configuration.GetConnectionString("DefaultConnection");
+                        options.UseSqlServer(connection);
+                    }, ServiceLifetime.Transient);
+            services.AddIdentity<ApplicationUser, IdentityRole<long>>(options =>
+                    {
+                        var password = options.Password;
+
+                        password.RequireDigit = false;
+                        password.RequireLowercase = false;
+                        password.RequireNonAlphanumeric = false;
+                        password.RequireUppercase = false;
+                        password.RequiredLength = 1;
+
+                    })
                     .AddEntityFrameworkStores<BlogContext>()
                     .AddDefaultTokenProviders();
         }
@@ -56,10 +74,10 @@ namespace Blog
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            
+            app.UseStatusCodePagesWithReExecute("/error", "?code={0}");
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

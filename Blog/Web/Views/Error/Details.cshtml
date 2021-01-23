@@ -1,0 +1,11 @@
+﻿@model ErrorViewModel
+@{
+    ViewData["Title"] = Model.Info;
+}
+<div class="container">
+    <div class="col-10">
+        <div class="justify-content-center">
+            @Model.Code @Model.Info
+        </div>
+    </div>
+</div>

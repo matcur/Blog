@@ -1,5 +1,5 @@
 ﻿using Blog.DataAccess;
-using Blog.Infrastructure.Services;
+using Blog.Core.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -11,12 +11,8 @@ using System.Threading.Tasks;
 
 namespace Blog.Web.Controllers
 {
-    public class HomeController : BlogController
+    public class HomeController : Controller
     {
-        public HomeController(BlogContext blogContext, UserService userService) : base(blogContext, userService)
-        {
-        }
-
         [Route("/")]
         [Route("/index")]
         public IActionResult Index()

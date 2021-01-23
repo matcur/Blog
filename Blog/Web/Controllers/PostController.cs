@@ -1,8 +1,7 @@
 ﻿using Blog.DataAccess;
-using Blog.DataAccess.Extensions;
 using Blog.DataAccess.Models;
-using Blog.Infrastructure.FilterAttributes;
-using Blog.Infrastructure.Services;
+using Blog.Core.FilterAttributes;
+using Blog.Core.Services;
 using Blog.Web.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,33 +10,43 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blog.Extensions;
+using Blog.Core.FilterAttributes.Actions;
+using Blog.Core.FilterAttributes.Action;
 
 namespace Blog.Web.Controllers
 {
-    public class PostController : BlogController
+    public class PostController : Controller
     {
-        public PostController(BlogContext blogContext, UserService userService) : base(blogContext, userService) { }
+        private readonly PostService postService;
+
+        private readonly UserService userService;
+
+        public PostController(PostService postService, UserService userService)
+        {
+            this.postService = postService;
+            this.userService = userService;
+        }
 
         [HttpGet]
         [Route("/posts")]
-        public ActionResult Index([FromQuery(Name = "page")] int pageNumber = 1)
+        public ActionResult Index(int page = 1, int perPage = 5)
         {
-            var allPostCount = DbPost.Count();
-            var posts = DbPost.Paginate(pageNumber, 2).ToList();
+            var postCount = postService.GetCount();
+            var pagePosts = postService.GetPaginate(page, perPage);
+
             ViewBag.PageNavigation = new PageNavigationViewModel(
-                pageNumber, allPostCount / 2, new UriBuilder($"https://{Request.Host}" + Url.Action("Index"))
+                    page, postCount / perPage, new UriBuilder($"https://{Request.Host}" + Url.Action("Index"))
                 );
 
-            return View(posts);
+            return View(pagePosts);
         }
 
         [HttpGet]
         [Route("/posts/details/{id:long}")]
         public ActionResult Details(long id)
         {
-            var post = DbPost.Find(id);
-            if (post == null)
-                return NotFound();
+            var post = postService.FindPostDetail(id);
 
             return View(post);
         }
@@ -51,62 +60,46 @@ namespace Blog.Web.Controllers
         }
 
         [HttpPost]
-        [ValidateModel]
         [Authorize]
+        [PostCreating]
+        [ValidateModel]
         [Route("/posts/create")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(Post post)
+        public ActionResult Create(Post post)
         {
-            post.CreatedAt = DateTime.Now;
-            post.Author = await UserService.GetCurrentUser();
-            DbPost.Add(post);
-            BlogContext.SaveChanges();
+            postService.Create(post);
 
-            return View();
+            return RedirectToAction("Details", new { id = post.Id });
         }
 
         [HttpGet]
         [Route("/posts/edit/{id:long}")]
         public ActionResult Edit(long id)
         {
-            var post = DbPost.Find(id);
-            if (post == null)
-                return NotFound($"Post {id} not found");
+            var post = postService.FindPost(id);
 
             return View(post);
         }
 
         [HttpPost]
-        [Route("/posts/edit/{id:long}")]
+        [ValidateModel]
         [ValidateAntiForgeryToken]
+        [Route("/posts/edit/{id:long}")]
         public ActionResult Edit(Post updatingPost)
         {
-            var post = DbPost.Find(updatingPost.Id);
-            if (post == null)
-                return NotFound();
-
-            post.Content = updatingPost.Content;
-            post.Title = updatingPost.Title;
-
-            BlogContext.Entry(post).State = EntityState.Modified;
-            BlogContext.SaveChanges();
+            postService.Update(updatingPost);
             
-            return Redirect("/posts");
+            return RedirectToAction("Index");
         }
 
         [HttpDelete]
-        [Route("/posts/delete/{id:long}")]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id)
+        [Route("/posts/delete/{id:long}")]
+        public ActionResult Delete(long id)
         {
-            var post = DbPost.Find(id);
-            if (post == null)
-                return NotFound($"Post {id} not found");
+            postService.Delete(id);
 
-            BlogContext.Entry(post).State = EntityState.Deleted;
-            BlogContext.SaveChanges();
-
-            return View();
+            return RedirectToAction("Index");
         }
     }
 }
