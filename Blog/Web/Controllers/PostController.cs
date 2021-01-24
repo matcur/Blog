@@ -12,7 +12,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Blog.Extensions;
 using Blog.Core.FilterAttributes.Actions;
-using Blog.Core.FilterAttributes.Action;
 
 namespace Blog.Web.Controllers
 {
@@ -61,7 +60,6 @@ namespace Blog.Web.Controllers
 
         [HttpPost]
         [Authorize]
-        [PostCreating]
         [ValidateModel]
         [Route("/posts/create")]
         [ValidateAntiForgeryToken]

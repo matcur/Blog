@@ -25,7 +25,6 @@ namespace Blog.Web.Controllers
 
         [Authorize]
         [ValidateModel]
-        [CommentCreating]
         [Route("posts/{postId:long}/comment/create")]
         public IActionResult Create(Comment comment, long postId)
         {
