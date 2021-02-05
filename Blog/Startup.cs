@@ -11,6 +11,7 @@ using Blog.DataAccess.Models;
 using Blog.Core.Services;
 using Blog.Infrastructure.Oauth;
 using Blog.Extensions;
+using Blog.Core;
 
 namespace Blog
 {
@@ -29,6 +30,7 @@ namespace Blog
             services.AddTransient<UserService>();
             services.AddTransient<PostService>();
             services.AddTransient<GitHubOauth>();
+            services.AddTransient<BlogFile>();
 
             services.AddControllersWithViews();
             services.ConfigureRazorEngineFolders();
@@ -63,6 +65,11 @@ namespace Blog
                     })
                     .AddEntityFrameworkStores<BlogContext>()
                     .AddDefaultTokenProviders();
+            services.ConfigureApplicationCookie(options =>
+                    {
+                        options.LoginPath = "/login/";
+                        options.AccessDeniedPath = "/login/";
+                    });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

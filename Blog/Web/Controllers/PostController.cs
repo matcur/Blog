@@ -12,6 +12,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Blog.Extensions;
 using Blog.Core.FilterAttributes.Actions;
+using Microsoft.AspNetCore.Http;
+using Blog.Core;
 
 namespace Blog.Web.Controllers
 {
@@ -63,9 +65,9 @@ namespace Blog.Web.Controllers
         [ValidateModel]
         [Route("/posts/create")]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Post post)
+        public async Task<ActionResult> Create(Post post, IFormFile thumbnail)
         {
-            postService.Create(post);
+            await postService.Create(post, thumbnail);
 
             return RedirectToAction("Details", new { id = post.Id });
         }

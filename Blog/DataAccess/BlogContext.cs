@@ -19,5 +19,16 @@ namespace Blog.DataAccess
         {
             Database.EnsureCreated();
         }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<Comment>()
+                   .HasOne(c => c.Post)
+                   .WithMany(p => p.Comments)
+                   .HasForeignKey(c => c.PostId)
+                   .OnDelete(DeleteBehavior.NoAction);
+
+            base.OnModelCreating(builder);
+        }
     }
 }

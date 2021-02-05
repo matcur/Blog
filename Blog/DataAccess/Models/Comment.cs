@@ -15,12 +15,12 @@ namespace Blog.DataAccess.Models
 
         public long PostId { get;set; }
 
-        public long AuthodId { get; set; }
+        public long AuthorId { get; set; }
 
         public DateTime CreatedAt { get; set; }
 
         public Post Post { get; set; }
 
-        public ApplicationUser Autor { get; set; }
+        public ApplicationUser Author { get; set; }
     }
 }

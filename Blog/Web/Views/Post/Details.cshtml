@@ -4,6 +4,7 @@
     Model.Comments.Reverse();
 }
 
+<img src="@Model.ThumbnailPath" />
 <p>@Model.Title</p>
 <p>@Model.Content</p>
 <p>@Model.CreatedAt.ToString("dd:mm:yy HH:mm")</p>
@@ -18,7 +19,7 @@
     {
         <div class="comment">
             <p>@comment.Content</p>
-            <p>@comment.Autor.UserName</p>
+            <p>@comment.Author.UserName</p>
         </div>
     }
 </div>

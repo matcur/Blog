@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -15,6 +16,8 @@ namespace Blog.DataAccess.Models
 
         [Required]
         public string Content { get; set; }
+
+        public string ThumbnailPath { get; set; }
 
         public long AuthorId { get; set; }
 

@@ -2,6 +2,8 @@
 using Blog.DataAccess.Models;
 using Blog.Extensions;
 using Blog.Web.ViewModels;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,13 +14,22 @@ namespace Blog.Core.Services
 {
     public class PostService
     {
-        private readonly BlogContext blogContext;
-        
         private readonly DbSet<Post> postTable;
 
-        public PostService(BlogContext blogContext)
+        private readonly BlogContext blogContext;
+        
+        private readonly UserService userService;
+
+        private readonly BlogFile blogFile;
+        
+        private readonly UserManager<ApplicationUser> userManager;
+
+        public PostService(BlogContext blogContext, UserManager<ApplicationUser> userManager, UserService userService, BlogFile blogFile)
         {
             this.blogContext = blogContext;
+            this.userManager = userManager;
+            this.userService = userService;
+            this.blogFile = blogFile;
             postTable = blogContext.Posts;
         }
 
@@ -40,12 +51,16 @@ namespace Blog.Core.Services
         public Post FindPostDetail(long id)
         {
             return postTable.Include(p => p.Comments)
-                            .ThenInclude(c => c.Autor)
+                            .ThenInclude(c => c.Author)
                             .First(p => p.Id == id);
         }
 
-        public void Create(Post post)
+        public async Task Create(Post post, IFormFile thumbnail)
         {
+            var currentUser = await userService.GetCurrentUser();
+            post.AuthorId = currentUser.Id;
+            post.ThumbnailPath = blogFile.Save(thumbnail);
+
             postTable.Add(post);
             blogContext.SaveChanges();
         }
@@ -68,9 +83,11 @@ namespace Blog.Core.Services
             blogContext.SaveChanges();
         }
 
-        public void AssociateComment(Comment comment, long postId)
+        public async Task AssociateComment(Comment comment, long postId)
         {
             var post = FindPost(postId);
+            var currentUser = await userService.GetCurrentUser();
+            comment.AuthorId = currentUser.Id;
 
             post.Comments.Add(comment);
             blogContext.SaveChanges();

@@ -1,5 +1,4 @@
 ﻿using Blog.Core.FilterAttributes;
-using Blog.Core.FilterAttributes.Action;
 using Blog.Core.FilterAttributes.Actions;
 using Blog.Core.Services;
 using Blog.DataAccess;
@@ -26,9 +25,9 @@ namespace Blog.Web.Controllers
         [Authorize]
         [ValidateModel]
         [Route("posts/{postId:long}/comment/create")]
-        public IActionResult Create(Comment comment, long postId)
+        public async Task<ActionResult> Create(Comment comment, long postId)
         {
-            postService.AssociateComment(comment, postId);
+            await postService.AssociateComment(comment, postId);
 
             return RedirectToAction("Details", "Post", new { id = postId });
         }

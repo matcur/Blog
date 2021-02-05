@@ -2,11 +2,12 @@
     ViewData["Title"] = "Post creating";
 }
 
-<form action="/posts/create" method="post">
+<form action="/posts/create" method="post" enctype="multipart/form-data">
     @Html.AntiForgeryToken()
     <label for="title">Title</label>
     <input id="title" name="Title" />
     <label for="content">Content</label>
     <input id="content" name="Content" />
+    <input type="file" name="thumbnail" />
     <button>Отправить</button>
 </form>
